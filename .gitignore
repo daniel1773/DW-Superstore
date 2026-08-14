@@ -1,0 +1,12 @@
+#senhas
+.env
+
+#testes
+ambiente_testes.py
+teste_dados.py
+
+#estudos
+estudar_depois.txt
+
+#cache
+__pycache__
