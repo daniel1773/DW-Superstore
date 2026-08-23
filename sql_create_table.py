@@ -1,11 +1,12 @@
 from conexao_db import conectar_db
 
-sql_create_table = """
+#--- STAGING TABLE ---#
+sql_stg_table = """
     CREATE TABLE stg_superstore(
         row_id NUMBER(10) GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
         order_id VARCHAR2(14),
-        order_date DATE,
-        ship_date DATE,
+        order_date VARCHAR2(10),
+        ship_date VARCHAR(10),
         ship_mode VARCHAR2(40),
         customer_id VARCHAR2(8),
         customer_name VARCHAR2(25),
@@ -18,7 +19,7 @@ sql_create_table = """
         product_id VARCHAR2(15),
         category VARCHAR2(25),
         sub_category VARCHAR2(25),
-        product_name VARCHAR2(100),
+        product_name VARCHAR2(150),
         sales NUMBER(10,2),
         quantity NUMBER(10),
         discount NUMBER(3,2),
@@ -26,9 +27,25 @@ sql_create_table = """
     )
 """
 
-conexao = conectar_db()
+#--- DIMs TABLES ---#
+sql_customer_table = """
+    CREATE TABLE customer(
+        customer_key NUMBER(10) GENERATED ALWAYS AS IDENTITY,
+        customer_id VARCHAR2(8) NOT NULL UNIQUE,
+        customer_name VARCHAR2(100),
+        segment VARCHAR2(30)
+    )
+"""
 
-with conexao.cursor() as cursor:
-    cursor.execute(sql_create_table)
-conexao.commit()
+
+#--- FATO TABLE ---#
+
+conexao = conectar_db()
+try:
+    with conexao.cursor() as cursor:
+        cursor.execute(sql_stg_table)
+    conexao.commit()
+    print("tabela criada com sucesso!")
+except:
+    print("ERRO ao criar tabela!")
 conexao.close()
