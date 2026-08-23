@@ -1,6 +1,7 @@
 import pandas as pd
 from conexao_db import conectar_db
 
+#remove o caractere '-' de todos os itens de uma lista e troca por '_'
 def formatar_lista(lista):
     lista2 = []
     for e in lista:
@@ -33,12 +34,16 @@ sql_insert = f"""
 """
 
 #--------------------------
-
+#cria uma lista com o nome das colunas
 sql_valores = dados_filtrado.values.tolist()
 
 conexao = conectar_db()
 
-with conexao.cursor() as cursor:
-    cursor.executemany(sql_insert, sql_valores)
-conexao.commit()
+try:
+    with conexao.cursor() as cursor:
+        cursor.executemany(sql_insert, sql_valores)
+    conexao.commit()
+    print("valores inseridos com sucesso!")
+except:
+    print("ERRO ao inserir valores")
 conexao.close()
