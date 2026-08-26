@@ -27,19 +27,6 @@ sql_stg_table = """
     )
 """
 
-#--- DIMs TABLES ---#
-sql_customer_table = """
-    CREATE TABLE customer(
-        customer_key NUMBER(10) GENERATED ALWAYS AS IDENTITY,
-        customer_id VARCHAR2(8) NOT NULL UNIQUE,
-        customer_name VARCHAR2(100),
-        segment VARCHAR2(30)
-    )
-"""
-
-
-#--- FATO TABLE ---#
-
 conexao = conectar_db()
 try:
     with conexao.cursor() as cursor:
