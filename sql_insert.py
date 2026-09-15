@@ -18,6 +18,17 @@ def formatar_lista(lista):
 dados = pd.read_csv(r"dados_brutos\Superstore.csv", encoding='latin1')
 dados_filtrado = dados.drop(columns=["Row ID"])
 
+
+##Permite o Oracle reconhecer datas no formato 02/31/2005 como 31/02/2005
+dados_filtrado["Order Date"] = pd.to_datetime(
+    dados_filtrado["Order Date"],
+    format="%m/%d/%Y"
+)
+dados_filtrado["Ship Date"] = pd.to_datetime(
+    dados_filtrado["Ship Date"],
+    format="%m/%d/%Y"
+)
+
 #nome de todas as colunas do arquivo CSV
 nome_colunas_csv = list(dados_filtrado.columns)
 nome_colunas_csv_formatado = formatar_lista(nome_colunas_csv)
