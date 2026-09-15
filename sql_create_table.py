@@ -5,8 +5,8 @@ sql_stg_table = """
     CREATE TABLE stg_superstore(
         row_id NUMBER(10) GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
         order_id VARCHAR2(14),
-        order_date DATE,
-        ship_date DATE,
+        order_date VARCHAR2(10),
+        ship_date VARCHAR(10),
         ship_mode VARCHAR2(40),
         customer_id VARCHAR2(8),
         customer_name VARCHAR2(25),
@@ -90,8 +90,11 @@ sql_fact_sale_table = """
 
 
 conexao = conectar_db()
-
-with conexao.cursor() as cursor:
-    cursor.execute(sql_stg_table)
-conexao.commit()
+try:
+    with conexao.cursor() as cursor:
+        cursor.execute(sql_stg_table)
+    conexao.commit()
+    print("tabela criada com sucesso!")
+except:
+    print("ERRO ao criar tabela!")
 conexao.close()
